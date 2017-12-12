@@ -1,0 +1,841 @@
+@charset "UTF-8";
+/*
+Create mixin for :before/:after pseudo element support;
+*zoom: expression(
+	this.runtimeStyle.zoom = "1",
+	this.appendChild( document.createElement("small") ).className="ie-before",
+	this.appendChild( document.createElement("small") ).className="ie-after"
+);
+
+// USAGE:
+&:before, .ie-before {}
+&:after, .ie-after {}
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: top; }
+
+article, aside, details, figcaption, figure, footer,
+header, hgroup, nav, section, summary {
+  display: block; }
+
+audio, canvas, video {
+  display: -moz-inline-stack;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: top;
+  margin-right: -4px; }
+
+audio:not([controls]), [hidden] {
+  display: none; }
+
+a:focus {
+  outline: none; }
+
+nav ul,
+nav ol {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+
+img {
+  border: 0;
+  max-width: 100%;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle; }
+
+svg:not(:root) {
+  overflow: hidden; }
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  padding: 0;
+  border: 0; }
+
+input[type="radio"] {
+  vertical-align: text-bottom; }
+
+input[type="checkbox"] {
+  vertical-align: text-bottom; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+body {
+  cursor: default; }
+
+a, button, input[type="submit"] {
+  cursor: pointer; }
+
+*, *:after, *:before {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box; }
+
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table; }
+
+.clearfix:after {
+  clear: both; }
+
+.clearfix {
+  *zoom: 1; }
+
+.hide {
+  display: none; }
+
+.show {
+  display: block;
+  visibility: visible; }
+
+.hidden {
+  position: absolute !important;
+  z-index: 999;
+  top: -999em;
+  left: -999em;
+  height: auto;
+  display: block; }
+
+.center {
+  text-align: center; }
+
+/*  HEADING
+    ----------------- */
+h1 {
+  font-size: 36px;
+  line-height: 1.3em; }
+
+h2 {
+  font-size: 24px;
+  line-height: 1.3em; }
+
+h3 {
+  font-size: 18px;
+  line-height: 1.5em; }
+
+h4 {
+  font-size: 16px;
+  line-height: 1.5em; }
+
+h5 {
+  font-size: 14px;
+  line-height: 1.5em; }
+
+h6 {
+  font-size: 14px;
+  line-height: 1.5em; }
+
+/*  TEXT ELEMENT
+    ----------------- */
+p {
+  margin: 0 0 1.5em; }
+
+em {
+  font-style: italic; }
+
+b,
+strong {
+  font-weight: bold; }
+
+small {
+  font-size: 85%; }
+
+cite {
+  font-style: normal; }
+
+dfn {
+  font-style: italic;
+  font-weight: bold; }
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative; }
+
+sup {
+  top: -0.5em;
+  vertical-align: sub; }
+
+sub {
+  bottom: -0.25em;
+  vertical-align: super; }
+
+abbr,
+acronym {
+  font-size: 90%;
+  text-transform: uppercase;
+  border-bottom: 1px dotted #DDD;
+  cursor: help; }
+
+del {
+  color: #AAA;
+  text-decoration: line-through;
+  vertical-align: baseline; }
+
+pre {
+  background: #ffff99;
+  border-bottom: 1px solid #ff2;
+  border-top: 1px solid #ff2;
+  color: #990;
+  margin: 1.5em 0;
+  padding: 0.75em 0.45em;
+  white-space: pre;
+  white-space: pre-wrap;
+  white-space: pre-line;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -hp-pre-wrap;
+  word-wrap: break-word; }
+
+code {
+  background: #ffff99;
+  color: #990;
+  font-size: 11px;
+  line-height: 1.2em;
+  padding: 0.3em; }
+
+pre,
+code,
+kbd,
+samp,
+tt {
+  font-family: Consolas, Inconsolata, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
+
+ins {
+  text-decoration: underline; }
+
+mark {
+  background: #ff0;
+  color: #990;
+  font-size: 11px; }
+
+address {
+  display: block;
+  margin: 0 0 1.5em;
+  font-style: italic; }
+
+/*  LISTS
+    ----------------- */
+ul,
+ol {
+  margin: 1em 0;
+  padding: 0 0 0 2.25em; }
+
+ul {
+  list-style: disc; }
+
+ol {
+  list-style-type: decimal; }
+
+ol ol {
+  list-style: upper-alpha; }
+
+ol ol ol {
+  list-style: lower-roman; }
+
+ol ol ol ol {
+  list-style: lower-alpha; }
+
+li ul,
+li ol {
+  margin: 0; }
+
+dl {
+  margin: 0 1.625em; }
+
+dt {
+  font-weight: bold; }
+
+dd {
+  margin-bottom: 1.625em; }
+
+* html {
+  font-size: 75%; }
+
+html {
+  font-size: 12px;
+  line-height: 2em;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased; }
+
+body {
+  background: #FFF;
+  color: #58595B;
+  text-rendering: optimizeLegibility; }
+
+::-moz-selection {
+  background: #005A99;
+  color: #FFF;
+  text-shadow: none; }
+
+::selection {
+  background: #005A99;
+  color: #FFF;
+  text-shadow: none; }
+
+a {
+  color: #005A99;
+  text-decoration: none; }
+  a:hover {
+    color: #0052cc;
+    text-decoration: none; }
+  a:focus {
+    outline: none; }
+
+input.placeholder, input.placeholder.placeholder,
+textarea.placeholder, textarea.placeholder.placeholder {
+  color: #8b8c8e; }
+input:-moz-placeholder, input.placeholder:-moz-placeholder,
+textarea:-moz-placeholder, textarea.placeholder:-moz-placeholder {
+  color: #8b8c8e; }
+input::-webkit-input-placeholder, input.placeholder::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder, textarea.placeholder::-webkit-input-placeholder {
+  color: #8b8c8e; }
+
+/*------------------------------------*\
+    $CSSWIZARDRY-GRIDS
+\*------------------------------------*/
+/**
+ * CONTENTS
+ * INTRODUCTION.........How the grid system works.
+ * VARIABLES............Your settings.
+ * MIXINS...............Library mixins.
+ * GRID SETUP...........Build the grid structure.
+ * WIDTHS...............Build our responsive widths around our breakpoints.
+ * PUSH.................Push classes.
+ * PULL.................Pull classes.
+ */
+/*------------------------------------*\
+    $INTRODUCTION
+\*------------------------------------*/
+/**
+ * csswizardry grids provides you with widths to suit a number of breakpoints
+ * designed around devices of a size you specify. Out of the box, csswizardry
+ * grids caters to the following types of device:
+ *
+ * palm     --  palm-based devices, like phones and small tablets
+ * lap      --  lap-based devices, like iPads or laptops
+ * portable --  all of the above
+ * desk     --  stationary devices, like desktop computers
+ * regular  --  any/all types of device
+ *
+ * These namespaces are then used in the library to give you the ability to
+ * manipulate your layouts based around them, for example:
+ *
+   <div class="grid__item  one-whole  lap--one-half  desk--one-third">
+ *
+ * This would give you a grid item which is 100% width unless it is on a lap
+ * device, at which point it become 50% wide, or it is on a desktop device, at
+ * which point it becomes 33.333% width.
+ *
+ * csswizardry grids also has push and pull classes which allow you to nudge
+ * grid items left and right by a defined amount. These follow the same naming
+ * convention as above, but are prepended by either `push--` or `pull--`, for
+ * example:
+ *
+   `class="grid__item  one-half  push--one-half"`
+ *
+ * This would give you a grid item which is 50% width and pushed over to the
+ * right by 50%.
+ *
+ * All classes in csswizardry grids follow this patten, so you should fairly
+ * quickly be able to piece together any combinations you can imagine, for
+ * example:
+ *
+   `class="grid__item  one-whole  lap--one-half  desk--one-third  push--desk--one-third"`
+ *
+   `class="grid__item  one-quarter  palm--one-half  push--palm--one-half"`
+ *
+   `class="grid__item  palm--one-third  desk--five-twelfths"`
+ */
+/*------------------------------------*\
+    $VARIABLES
+\*------------------------------------*/
+/**
+ * If you are building a non-responsive site but would still like to use
+ * csswizardry-grids, set this to ‘false’:
+ */
+/**
+ * Is this build mobile first? Setting to ‘true’ means that all grids will be
+ * 100% width if you do not apply a more specific class to them.
+ */
+/**
+ * Set the spacing between your grid items.
+ */
+/**
+ * Would you like Sass’ silent classes, or regular CSS classes?
+ */
+/**
+ * Would you like push and pull classes enabled?
+ */
+/**
+ * Using `inline-block` means that the grid items need their whitespace removing
+ * in order for them to work correctly. Set the following to true if you are
+ * going to achieve this by manually removing/commenting out any whitespace in
+ * your HTML yourself.
+ *
+ * Setting this to false invokes a hack which cannot always be guaranteed,
+ * please see the following for more detail:
+ *
+ * github.com/csswizardry/csswizardry-grids/commit/744d4b23c9d2b77d605b5991e54a397df72e0688
+ * github.com/csswizardry/inuit.css/issues/170#issuecomment-14859371
+ */
+/**
+ * Define your breakpoints. The first value is the prefix that shall be used for
+ * your classes (e.g. `.palm--one-half`), the second value is the media query
+ * that the breakpoint fires at.
+ */
+/**
+ * Define which namespaced breakpoints you would like to generate for each of
+ * widths, push and pull. This is handy if you only need pull on, say, desk, or
+ * you only need a new width breakpoint at mobile sizes. It allows you to only
+ * compile as much CSS as you need. All are turned on by default, but you can
+ * add and remove breakpoints at will.
+ *
+ * Push and pull shall only be used if `$push` and/or `$pull` and `$responsive`
+ * have been set to ‘true’.
+ */
+/**
+ * You do not need to edit anything from this line onward; csswizardry-grids is
+ * good to go. Happy griddin’!
+ */
+/*------------------------------------*\
+    $MIXINS
+\*------------------------------------*/
+/**
+ * These mixins are for the library to use only, you should not need to modify
+ * them at all.
+ *
+ * Enclose a block of code with a media query as named in `$breakpoints`.
+ */
+/**
+ * Drop relative positioning into silent classes which can’t take advantage of
+ * the `[class*="push--"]` and `[class*="pull--"]` selectors.
+ */
+/*------------------------------------*\
+    $GRID SETUP
+\*------------------------------------*/
+/**
+ * 1. Allow the grid system to be used on lists.
+ * 2. Remove any margins and paddings that might affect the grid system.
+ * 3. Apply a negative `margin-left` to negate the columns’ gutters.
+ */
+/**
+ * 1. Cause columns to stack side-by-side.
+ * 2. Space columns apart.
+ * 3. Align columns to the tops of each other.
+ * 4. Full-width unless told to behave otherwise.
+ * 5. Required to combine fluid widths and fixed gutters.
+ */
+/**
+ * Reversed grids allow you to structure your source in the opposite order to
+ * how your rendered layout will appear. Extends `.grid`.
+ */
+/**
+ * Gutterless grids have all the properties of regular grids, minus any spacing.
+ * Extends `.grid`.
+ */
+/**
+ * Align the entire grid to the right. Extends `.grid`.
+ */
+/**
+ * Centered grids align grid items centrally without needing to use push or pull
+ * classes. Extends `.grid`.
+ */
+/**
+ * Align grid cells vertically (`.grid--middle` or `.grid--bottom`). Extends
+ * `.grid`.
+ */
+/**
+ * Create grids with narrower gutters. Extends `.grid`.
+ */
+/**
+ * Create grids with wider gutters. Extends `.grid`.
+ */
+/*------------------------------------*\
+    $WIDTHS
+\*------------------------------------*/
+/**
+ * Create our width classes, prefixed by the specified namespace.
+ */
+/**
+ * Our regular, non-responsive width classes.
+ */
+/**
+ * Whole
+ */
+/**
+ * Halves
+ */
+/**
+ * Thirds
+ */
+/**
+ * Quarters
+ */
+/**
+ * Fifths
+ */
+/**
+ * Sixths
+ */
+/**
+ * Eighths
+ */
+/**
+ * Tenths
+ */
+/**
+ * Twelfths
+ */
+/**
+ * Our responsive classes, if we have enabled them.
+ */
+@media only screen and (max-width: 480px) {
+  /**
+   * Whole
+   */
+  /**
+   * Halves
+   */
+  /**
+   * Thirds
+   */
+  /**
+   * Quarters
+   */
+  /**
+   * Fifths
+   */
+  /**
+   * Sixths
+   */
+  /**
+   * Eighths
+   */
+  /**
+   * Tenths
+   */
+  /**
+   * Twelfths
+   */ }
+@media only screen and (min-width: 600px) {
+  /**
+   * Whole
+   */
+  /**
+   * Halves
+   */
+  /**
+   * Thirds
+   */
+  /**
+   * Quarters
+   */
+  /**
+   * Fifths
+   */
+  /**
+   * Sixths
+   */
+  /**
+   * Eighths
+   */
+  /**
+   * Tenths
+   */
+  /**
+   * Twelfths
+   */ }
+@media only screen and (min-width: 768px) {
+  /**
+   * Whole
+   */
+  /**
+   * Halves
+   */
+  /**
+   * Thirds
+   */
+  /**
+   * Quarters
+   */
+  /**
+   * Fifths
+   */
+  /**
+   * Sixths
+   */
+  /**
+   * Eighths
+   */
+  /**
+   * Tenths
+   */
+  /**
+   * Twelfths
+   */ }
+@media only screen and (min-width: 1024px) {
+  /**
+   * Whole
+   */
+  /**
+   * Halves
+   */
+  /**
+   * Thirds
+   */
+  /**
+   * Quarters
+   */
+  /**
+   * Fifths
+   */
+  /**
+   * Sixths
+   */
+  /**
+   * Eighths
+   */
+  /**
+   * Tenths
+   */
+  /**
+   * Twelfths
+   */ }
+/*------------------------------------*\
+    $PUSH
+\*------------------------------------*/
+/**
+ * Push classes, to move grid items over to the right by certain amounts.
+ */
+/*------------------------------------*\
+    $PULL
+\*------------------------------------*/
+/**
+ * Pull classes, to move grid items back to the left by certain amounts.
+ */
+body.debug {
+  cursor: default; }
+
+body.debug:before {
+  position: fixed;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  padding: 5px;
+  font-size: 10px;
+  color: #FFF;
+  line-height: 14px; }
+  @media screen and (min-width: 320px) {
+    body.debug:before {
+      content: "Smartphones (portrait)";
+      background: rgba(185, 35, 35, 0.8); } }
+  @media screen and (min-width: 480px) {
+    body.debug:before {
+      content: "Smartphones (landscape)";
+      background: rgba(183, 65, 35, 0.8); } }
+  @media screen and (min-width: 600px) {
+    body.debug:before {
+      content: "Tablets - Kindle Fire";
+      background: rgba(181, 95, 35, 0.8); } }
+  @media screen and (min-width: 768px) {
+    body.debug:before {
+      content: "Tablets - iPad (portrait)";
+      background: rgba(179, 125, 35, 0.8); } }
+  @media screen and (min-width: 1024px) {
+    body.debug:before {
+      content: "Tablets - iPad (landscape)";
+      background: rgba(177, 155, 35, 0.8); } }
+  @media screen and (min-width: 1150px) {
+    body.debug:before {
+      content: "Small Desktops and laptops";
+      background: rgba(175, 185, 35, 0.8); } }
+  @media screen and (min-width: 1280px) {
+    body.debug:before {
+      content: "Desktops and laptops";
+      background: rgba(175, 185, 35, 0.8); } }
+
+#scrollbar_measure {
+  position: absolute;
+  top: -100px;
+  width: 100px;
+  height: 100px;
+  overflow: scroll;
+  background: #900; }
+
+#win_size {
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  right: 0;
+  padding: 5px 10px;
+  font: normal 10px/14px Arial, Helvetica, sans-serif;
+  color: #FFF;
+  background: rgba(0, 0, 0, 0.35); }
+
+/* HEADER styles
+==================================================================================================== */
+/* PAGE styles
+==================================================================================================== */
+body,
+html {
+  height: 100%; }
+
+body {
+  overflow-x: hidden;
+  font: normal 14px "Proxima N W15 Reg", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #58595B; }
+
+#container {
+  position: relative;
+  min-height: 100%;
+  background: #FFF; }
+
+.content {
+  position: relative;
+  z-index: 1;
+  height: 100%; }
+  .content section {
+    position: fixed;
+    height: 50%;
+    display: block;
+    width: 100%;
+    text-align: center; }
+    .content section.madeline {
+      background: #242021; }
+    .content section.maxx {
+      background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2RhNTU1MiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2NkNDY0MyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+      background-size: 100%;
+      background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #da5552), color-stop(100%, #cd4643));
+      background-image: -moz-linear-gradient(#da5552, #cd4643);
+      background-image: -webkit-linear-gradient(#da5552, #cd4643);
+      background-image: linear-gradient(#da5552, #cd4643);
+      bottom: 0; }
+      .content section.maxx a img {
+        max-width: 300px; }
+    .content section a {
+      display: table;
+      height: 100%;
+      position: relative;
+      width: 100%;
+      text-align: center; }
+      .content section a span {
+        display: table-cell;
+        vertical-align: middle; }
+      .content section a img {
+        max-width: 400px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 3em;
+        -moz-transition: padding 0.2s ease-out;
+        -o-transition: padding 0.2s ease-out;
+        -webkit-transition: padding 0.2s ease-out;
+        transition: padding 0.2s ease-out; }
+      .content section a:hover img {
+        padding: 3em 2em; }
+  @media all and (max-width: 600px) and (orientation: landscape) {
+    .content section a img {
+      width: auto;
+      max-width: none;
+      max-height: 20%;
+      padding: 1em 3em; }
+    .content section.maxx a img {
+      max-height: 10%; } }
+  @media all and (min-width: 600px) and (max-width: 767px) and (orientation: landscape) {
+    .content section a img {
+      width: auto;
+      max-width: none;
+      max-height: 25%;
+      padding: 1em 3em; }
+    .content section.maxx a img {
+      max-height: 12%; } }
+  @media all and (min-width: 800px) {
+    .content section {
+      display: block;
+      width: 50%;
+      position: fixed;
+      height: 100%; }
+      .content section.maxx {
+        right: 0; }
+        .content section.maxx a img {
+          max-width: 400px; }
+      .content section.madeline a img {
+        max-width: 500px; } }
+
+/* INDEX styles
+==================================================================================================== */
+/* FOOTER styles
+==================================================================================================== */
+/* MEDIA QUERIES styles
+==================================================================================================== */
+/* PRINT styles
+==================================================================================================== */
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important; }
+
+  /* Black prints faster: h5bp.com/s */
+  a, a:visited {
+    text-decoration: underline; }
+
+  a[href]:after {
+    content: " (" attr(href) ")"; }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")"; }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: ""; }
+
+  /* Don't show links for images, or javascript/internal links */
+  pre, blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid; }
+
+  thead {
+    display: table-header-group; }
+
+  /* h5bp.com/t */
+  tr, img {
+    page-break-inside: avoid; }
+
+  img {
+    max-width: 100% !important; }
+
+  @page {
+    margin: 0.5cm; }
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3; }
+
+  h2, h3 {
+    page-break-after: avoid; } }

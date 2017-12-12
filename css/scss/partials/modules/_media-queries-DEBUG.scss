@@ -1,0 +1,68 @@
+// DEBUG
+// To view, add "debug" class to body (e.g. <body class="debug">)
+// =================================================================================
+
+body.debug {
+	cursor: default;
+}
+body.debug:before {
+	position: fixed;
+	z-index: 101;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: block;
+	padding: 5px;
+	font-size: 10px;
+	color:#FFF;
+	line-height:14px;
+	
+	@media screen and (min-width: 320px) {
+		content:"Smartphones (portrait)";
+		background:rgba(185,35,35, 0.8);
+	}
+	@media screen and (min-width: 480px) {
+		content:"Smartphones (landscape)";
+		background:rgba(183,65,35, 0.8);
+	}
+	@media screen and (min-width: 600px) {
+		content:"Tablets - Kindle Fire";
+		background:rgba(181,95,35, 0.8);
+	}
+	@media screen and (min-width: 768px) {
+		content:"Tablets - iPad (portrait)";
+		background:rgba(179,125,35, 0.8);
+	}
+	@media screen and (min-width: 1024px) {
+		content:"Tablets - iPad (landscape)";
+		background:rgba(177,155,35, 0.8);
+	}
+	@media screen and (min-width: 1150px) {
+		content:"Small Desktops and laptops";
+		background:rgba(175,185,35, 0.8);
+	}
+	@media screen and (min-width: 1280px) {
+		content:"Desktops and laptops";
+		background:rgba(175,185,35, 0.8);
+	}
+}
+
+#scrollbar_measure {
+	position: absolute;
+	top: -100px;
+	width: 100px;
+	height: 100px;
+	overflow: scroll;
+	background:#900;
+}
+
+#win_size {
+	position: fixed;
+	z-index: 99999;
+	top: 0;
+	right: 0;
+	padding: 5px 10px;
+	font: normal 10px/14px Arial, Helvetica, sans-serif;
+	color: #FFF;
+	background: rgba(0,0,0,0.35);
+}

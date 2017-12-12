@@ -1,0 +1,81 @@
+// Base styles
+// Setup your baseline, selection and links
+// ====================================================================================================
+
+// Site Variables
+// ---------------------------------------------------------------------------
+$backgroundColor: #FFF;
+$base-font-size: 12px;
+$fontColor: #58595B;
+$linkColor: #005A99;
+
+
+// Compass Cross-Browser Support
+// http://compass-style.org/reference/compass/support/
+// ---------------------------------------------------------------------------
+$legacy-support-for-ie6: false;
+$legacy-support-for-ie7: true;
+
+// Support older IE browsers that require FILTERs
+// ---------------------------------------------------------------------------
+$useIEFilters: 1; // 0: false || 1: true;
+
+// Responsive Grids - columns with push/pull
+// ---------------------------------------------------------------------------
+$responsive: true;
+
+// Responsiveness for widescreen/high resolution desktop monitors and beyond?
+$responsive-extra: true;
+
+// Responsive push and pull produce a LOT of code, only turn them on if you definitely need them.
+$responsive-push: true;
+$responsive-pull: true;
+
+// At which point should lap and desk breakpoints kick in?
+$lap-start: 480px;
+$desk-start: 900px;
+$desk-wide-start: 1100px;
+
+// ====================================================================================================
+
+// Vertical rhythm
+@include establish-baseline;
+
+// SELECTION
+// ---------------------------------------------------------------------------
+@include selection($linkColor, $white);
+
+// LINKS
+// ---------------------------------------------------------------------------
+a {
+	color: $linkColor;
+	text-decoration: none;
+
+	&:hover {
+		color: $linkHover;
+		text-decoration: none;
+	}
+	&:focus {
+		outline: none;
+	}
+}
+
+// PLACEHOLDERS
+// ---------------------------------------------------------------------------
+input, input.placeholder,
+textarea, textarea.placeholder {
+	@include placeholder {
+		color: lighten($fontColor, 20%);
+	}
+}
+
+// Fonts
+// ---------------------------------------------------------------------------
+// Webfonts.fonts.com - project "000073-12SJH2445 St. John Website"
+$proxima-light: 'Proxima N W15 Light', $helvetica;
+$proxima-regular: 'Proxima N W15 Reg', $helvetica;
+$proxima-semibold: 'Proxima N W15 Smbd', $helvetica;
+$tradegothic-roman: 'Trade Gothic W01 Roman', $helvetica;
+$tradegothic-bold: 'Trade Gothic W01 Bold', $helvetica;
+$tradegothic-cn18: 'Trade Gothic W01 Cn 18', $helvetica;
+$tradegothic-cn20: 'TradeGothicW01-BoldCn20 675334', $helvetica;

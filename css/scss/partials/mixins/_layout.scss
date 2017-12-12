@@ -1,0 +1,149 @@
+// Helper Mixins
+// ====================================================================================================
+
+// Mixin for set up the baseline
+// Customize version from:
+// http://compass-style.org/reference/compass/typography/vertical_rhythm/#mixin-establish-baseline
+// ---------------------------------------------------------------------------
+@mixin establish-baseline($font-size: $base-font-size) {
+	// IE 6 refuses to resize fonts set in pixels and it weirdly resizes fonts
+	// whose root is set in ems. So we set the root font size in percentages of
+	// the default font size.
+	* html {
+		font-size: 100% * ($font-size / $browser-default-font-size);
+	}
+	html {
+		font-size: $font-size;
+		@include adjust-leading-to(1, if($relative-font-sizing, $font-size, $base-font-size));
+		-ms-text-size-adjust: 100%; // www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/
+		-webkit-text-size-adjust: 100%; // Prevents iOS text size adjust after orientation change, without disabling user zoom
+		-webkit-font-smoothing: antialiased; // http://maxvoltar.com/archive/-Webkit-font-smoothing
+	}
+	body {
+		background: $backgroundColor;
+		color: $fontColor;
+		text-rendering: optimizeLegibility; // http://aestheticallyloyal.com/public/optimize-legibility/
+	}
+}
+
+// Mixin for reset list
+// ---------------------------------------------------------------------------
+@mixin reset-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+// Mixin for box-sizing (box model)
+// Acceptable values are border, content, and padding - content is the default W3C model
+// ---------------------------------------------------------------------------
+@mixin box-sizing($type: "border") {
+	box-sizing: #{$type}-box;
+	-webkit-box-sizing: #{$type}-box;
+	-moz-box-sizing: #{$type}-box;
+}
+
+// Mixin for cross browser inline-block
+// http://blog.mozilla.org/webdev/2009/02/20/cross-browser-inline-block/
+// ---------------------------------------------------------------------------
+@mixin inline-block($align:'top') {
+	display: -moz-inline-stack;
+	-moz-box-orient: vertical;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	vertical-align: #{$align};
+	margin-right: -4px;
+}
+
+// Border Radius
+// Modifed version from http://compass-style.org/reference/compass/css3/border_radius/
+// -o- and -ms- vendor prefix not exist for border radius
+// ---------------------------------------------------------------------------
+$default-rad: 5px !default;
+
+@mixin border-radius($rad: $default-rad) {
+	-webkit-border-radius	: $rad;
+	-moz-border-radius		: $rad;
+	border-radius			: $rad;
+
+	 // keeps background from busting out of border
+	-webkit-background-clip: padding-box;
+	-moz-background-clip: padding;
+	background-clip: padding-box;
+}
+
+// Create mixin for :before/:after pseudo element support;
+// ---------------------------------------------------------------------------
+@mixin ie-before-after($before:false, $after:false){
+	@if $before or $after {
+		*zoom: expression(
+			this.runtimeStyle.zoom = "1",
+			@if $before and $after {
+				this.appendChild( document.createElement("small") ).className="ie-before",
+				this.appendChild( document.createElement("small") ).className="ie-after"
+			} @else if $before and !$after {
+				this.appendChild( document.createElement("small") ).className="ie-before"
+			} @else if !$before and $after {
+				this.appendChild( document.createElement("small") ).className="ie-after"
+			}
+		)
+	} @else {
+		@warn "before or after booleans are required";
+	}
+}
+/*
+Create mixin for :before/:after pseudo element support;
+*zoom: expression(
+	this.runtimeStyle.zoom = "1",
+	this.appendChild( document.createElement("small") ).className="ie-before",
+	this.appendChild( document.createElement("small") ).className="ie-after"
+);
+
+// USAGE:
+&:before, .ie-before {}
+&:after, .ie-after {}
+*/
+
+
+// Percentage
+// ---------------------------------------------------------------------------
+@function calc-percent($target, $container) {
+	@return ($target / $container) * 100%;
+}
+
+// PX to EM coversion
+// ---------------------------------------------------------------------------
+@function pem($px, $base: 16) {
+	@if (unitless($px)) {
+		$px: $px * 1px;
+	}
+	@if (unitless($base)) {
+		$base: $base * 1px;
+	}
+
+	@return $px / $base * 1em;
+}
+
+
+// MediaQueries mixins
+// ---------------------------------------------------------------------------
+@mixin mq-at-least($device-width) {
+	@media screen and (min-width: $device-width) {
+		@content;
+	}
+}
+
+@mixin mq-until($device-width) {
+	@media screen and (max-width: $device-width - 1) {
+		@content;
+	}
+}
+// @include mq("all and (min-width:33em)") {
+//  ...
+// }
+@mixin mq($query: nil) {
+	@media #{$query} {
+		@content;
+	}
+}
